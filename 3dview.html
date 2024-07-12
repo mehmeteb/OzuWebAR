@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ozu MIM200 Yaz Araştırma Stajı 2023-2024</title>
+    <meta name="description" content="Ozu MIM200 Yaz Araştırma Stajı 2023-2024">
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        #navigationContainer {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            grid-template-rows: repeat(2, auto);
+            gap: 5px;
+        }
+        .navButton {
+            font-size: 24px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+        #topButtonContainer {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+        .topButton {
+            font-size: 24px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div id="topButtonContainer">
+        <button class="topButton" id="loadRandomModel">Load Random Model</button>
+    </div>
+    <div id="navigationContainer">
+        <button class="navButton" id="moveForward" style="grid-column: 2; grid-row: 1;">UP</button>
+        <button class="navButton" id="moveLeft" style="grid-column: 1; grid-row: 2;">LEFT</button>
+        <button class="navButton" id="moveBackward" style="grid-column: 2; grid-row: 2;">DOWN</button>
+        <button class="navButton" id="moveRight" style="grid-column: 3; grid-row: 2;">RIGHT</button>
+    </div>
+
+    <a-scene renderer="antialias: true; shadow: true; shadowMapHeight: 2048; shadowMapWidth: 2048" vr-mode-ui="enabled: false">
+        <a-sky color="#c5ebf7"></a-sky>
+        <a-plane width="100" height="100" position="0 0 0" rotation="-90 0 0" color="#c2c2c2" shadow="receive: true"></a-plane>
+
+       
+
+        <!-- Your GLTF Model -->
+        <a-entity id="model" gltf-model="modeller/AB1.glb" position="0 1 -2" scale="1 1 1" rotation="0 0 0" shadow="cast: true; receive: true"></a-entity>
+
+        <!-- Camera -->
+        <a-entity id="camera" camera position="0 1.6 0" look-controls="enabled: true"></a-entity>
+		
+		
+
+
+        <!-- Lights -->
+        
+    </a-scene>
+
+    <script>
+        const models = [
+            'modeller/AB1.glb',
+            'modeller/AB2.glb',
+            'modeller/AB3.glb',
+            'modeller/AB4.glb',
+            'modeller/LOWERQUAD.glb',
+            'modeller/OM.glb',
+            'modeller/SM.glb',
+            'modeller/poly/behrin.glb',
+            'modeller/poly/behrinbuse.glb',
+            'modeller/poly/buse.glb',
+            'modeller/poly/mistre.glb',
+            'modeller/poly/sude.glb',
+            'modeller/poly/sudevegizem.glb',
+            'modeller/poly/yigit.glb'
+        ];
+
+        const cameraEl = document.querySelector('#camera');
+        const modelEl = document.querySelector('#model');
+        
+        document.getElementById('moveForward').addEventListener('click', function () {
+            let position = cameraEl.getAttribute('position');
+            position.z -= 0.25;
+            cameraEl.setAttribute('position', position);
+        });
+        
+        document.getElementById('moveBackward').addEventListener('click', function () {
+            let position = cameraEl.getAttribute('position');
+            position.z += 0.25;
+            cameraEl.setAttribute('position', position);
+        });
+        
+        document.getElementById('moveLeft').addEventListener('click', function () {
+            let position = cameraEl.getAttribute('position');
+            position.x -= 0.25;
+            cameraEl.setAttribute('position', position);
+        });
+        
+        document.getElementById('moveRight').addEventListener('click', function () {
+            let position = cameraEl.getAttribute('position');
+            position.x += 0.25;
+            cameraEl.setAttribute('position', position);
+        });
+        
+        document.getElementById('loadRandomModel').addEventListener('click', function () {
+            const randomModel = models[Math.floor(Math.random() * models.length)];
+            modelEl.setAttribute('gltf-model', randomModel);
+            // Reset the model position near the camera
+            modelEl.setAttribute('position', '0 1 -2');
+        });
+    </script>
+</body>
+</html>
